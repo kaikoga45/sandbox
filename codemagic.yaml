@@ -14,3 +14,7 @@ workflows:
         script: |
           set -ex
           firebase --version
+      - name: "Build APK"
+        script: |
+          set -ex
+          flutter build apk --release
