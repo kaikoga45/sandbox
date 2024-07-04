@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "31751439669",
+    "project_id": "sandbox-3a856",
+    "storage_bucket": "sandbox-3a856.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31751439669:android:76063b929e5bddc67af87c",
+        "android_client_info": {
+          "package_name": "com.example.sandbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXiIF2p7bfM9Qbc-AKg9sY2bqPDOPPdGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
