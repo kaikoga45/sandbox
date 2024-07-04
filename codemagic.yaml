@@ -1,0 +1,16 @@
+workflows:
+  android-workflows:
+    name: Android Workflows
+    environment:
+      flutter: v3.22.2
+      java: 11
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+    scripts:
+      - name: "Check firebase CLI version"
+        script: |
+          set -ex
+          firebase --version
