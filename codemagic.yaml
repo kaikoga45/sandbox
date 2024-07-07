@@ -4,16 +4,14 @@ workflows:
     environment:
       flutter: v3.22.2
       java: 11
+      groups:
+        - firebase-crashlytics
     triggering:
       events:
         - push
       branch_patterns:
         - pattern: "main"
     scripts:
-      # - name: "Check firebase CLI version"
-      #   script: |
-      #     set -ex
-      #     firebase --version
       # - name: "Build APK"
       #   script: |
       #     set -ex
@@ -21,14 +19,14 @@ workflows:
       - name: "Echo CRASHLYTICS_SERVICE_ACCOUNT_KEY"
         script: |
           echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY
-      # - name: "Prepare Google Application Credentials"
-      #   script: |
-      #     set -ex
-      #     echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY > $CM_BUILD_DIR/firebase_credentials.json
-      #     export GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_credentials.json
-      # - name: "Upload Symbols to Firebase"
-      #   script: |
-      #     set -ex
-      #     firebase crashlytics:symbols:upload --app=1:31751439669:android:76063b929e5bddc67af87c build/app/outputs/symbols
+    #   - name: "Prepare Google Application Credentials"
+    #     script: |
+    #       set -ex
+    #       echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY > $CM_BUILD_DIR/firebase_credentials.json
+    #       export GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_credentials.json
+    #   - name: "Upload Symbols to Firebase"
+    #     script: |
+    #       set -ex
+    #       firebase crashlytics:symbols:upload --app=1:31751439669:android:76063b929e5bddc67af87c build/app/outputs/symbols
     # artifacts:
     #   - build/app/outputs/**/*.apk
