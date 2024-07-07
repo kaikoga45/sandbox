@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _throwError() => throw Exception('Exception @ ${DateTime.now()}');
+  void _throwError() => throw Exception('Exceptions @ ${DateTime.now()}');
 
   @override
   Widget build(BuildContext context) {
