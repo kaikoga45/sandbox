@@ -12,21 +12,21 @@ workflows:
       branch_patterns:
         - pattern: "main"
     scripts:
-      # - name: "Build APK"
-      #   script: |
-      #     set -ex
-      #     flutter build apk --release --split-debug-info=build/app/outputs/symbols
+      - name: "Build APK"
+        script: |
+          set -ex
+          flutter build apk --release --split-debug-info=build/app/outputs/symbols
       - name: "Echo CRASHLYTICS_SERVICE_ACCOUNT_KEY"
         script: |
           echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY
-    #   - name: "Prepare Google Application Credentials"
-    #     script: |
-    #       set -ex
-    #       echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY > $CM_BUILD_DIR/firebase_credentials.json
-    #       export GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_credentials.json
-    #   - name: "Upload Symbols to Firebase"
-    #     script: |
-    #       set -ex
-    #       firebase crashlytics:symbols:upload --app=1:31751439669:android:76063b929e5bddc67af87c build/app/outputs/symbols
-    # artifacts:
-    #   - build/app/outputs/**/*.apk
+      - name: "Prepare Google Application Credentials"
+        script: |
+          set -ex
+          echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY > $CM_BUILD_DIR/firebase_credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_credentials.json
+      - name: "Upload Symbols to Firebase"
+        script: |
+          set -ex
+          firebase crashlytics:symbols:upload --app=1:31751439669:android:76063b929e5bddc67af87c build/app/outputs/symbols
+    artifacts:
+      - build/app/outputs/**/*.apk
