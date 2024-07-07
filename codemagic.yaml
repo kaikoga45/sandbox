@@ -10,14 +10,14 @@ workflows:
       branch_patterns:
         - pattern: "main"
     scripts:
-      - name: "Check firebase CLI version"
-        script: |
-          set -ex
-          firebase --version
-      - name: "Build APK"
-        script: |
-          set -ex
-          flutter build apk --release --split-debug-info=build/app/outputs/symbols
+      # - name: "Check firebase CLI version"
+      #   script: |
+      #     set -ex
+      #     firebase --version
+      # - name: "Build APK"
+      #   script: |
+      #     set -ex
+      #     flutter build apk --release --split-debug-info=build/app/outputs/symbols
       - name: "Echo CRASHLYTICS_SERVICE_ACCOUNT_KEY"
         script: |
           echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY
@@ -30,5 +30,5 @@ workflows:
       #   script: |
       #     set -ex
       #     firebase crashlytics:symbols:upload --app=1:31751439669:android:76063b929e5bddc67af87c build/app/outputs/symbols
-    artifacts:
-      - build/app/outputs/**/*.apk
+    # artifacts:
+    #   - build/app/outputs/**/*.apk
