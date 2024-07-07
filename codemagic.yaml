@@ -18,6 +18,9 @@ workflows:
         script: |
           set -ex
           flutter build apk --release --split-debug-info=build/app/outputs/symbols
+      - name: "Echo CRASHLYTICS_SERVICE_ACCOUNT_KEY"
+        script: |
+          echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY
       # - name: "Prepare Google Application Credentials"
       #   script: |
       #     set -ex
