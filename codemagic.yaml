@@ -62,40 +62,40 @@ workflows:
           -- --obfuscate
     artifacts:
       - build/app/outputs/bundle/prodRelease/app-prod-release.aab
-  # ios-staging-deployment-workflows:
-  #   name: iOS Staging Deployment Workflows
-  #   instance_type: mac_mini_m2
-  #   cache: *ios_cache_paths
-  #   triggering:
-  #     events:
-  #       - tag
-  #     tag_patterns:
-  #       - pattern: "main"
-  #   environment: *ios_enviroments
-  #   integrations:
-  #     app_store_connect: Codemagic API Key
-  #   scripts:
-  #     - name: Set Up Code Signing Settings on Xcode Project
-  #       script: |
-  #         xcode-project use-profiles
-  #     - name: Get Flutter Dependencies
-  #       script: |
-  #         set -ex
-  #         flutter pub get
-  #     - *install_flutterfire_cli
-  #     - name: Install iOS Dependencies
-  #       script: |
-  #         set -ex
-  #         find . -name "Podfile" -execdir pod install \;
-  #     - *shorebird_install_scripts
-  #     - name: Shorebird Build Release
-  #       script: |
-  #         set -ex
-  #         shorebird release ios -- --obfuscate \
-  #         -t lib/main.dart \
-  #         --split-debug-info=build/app/outputs/symbols \
-  #         --export-options-plist=/Users/builder/export_options.plist \
-  #         --no-codesign \
-  #         --flutter-version 3.22.2
-  #   artifacts:
-  #     - build/ios/ipa/*.ipa
+  ios-staging-deployment-workflows:
+    name: iOS Staging Deployment Workflows
+    instance_type: mac_mini_m2
+    cache: *ios_cache_paths
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+    environment: *ios_enviroments
+    integrations:
+      app_store_connect: Codemagic API Key
+    scripts:
+      - name: Set Up Code Signing Settings on Xcode Project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter Dependencies
+        script: |
+          set -ex
+          flutter pub get
+      - *install_flutterfire_cli
+      - name: Install iOS Dependencies
+        script: |
+          set -ex
+          find . -name "Podfile" -execdir pod install \;
+      - *shorebird_install_scripts
+      - name: Shorebird Build Release
+        script: |
+          set -ex
+          shorebird release ios \
+          --split-debug-info=build/app/outputs/symbols \
+          --export-options-plist=/Users/builder/export_options.plist \
+          --no-codesign \
+          --flutter-version 3.22.2 \
+          -- --obfuscate
+    artifacts:
+      - build/ios/ipa/*.ipa
