@@ -24,7 +24,7 @@ definitions:
     name: Install Shorebird CLI
     script: |
       if [ ! -d "$HOME/.shorebird" ]; then
-        bash scrit
+        bash scripts/install_shorebird.sh
       fi
       echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
   extract_app_version: &extract_app_version_scripts
