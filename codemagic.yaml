@@ -42,8 +42,8 @@ workflows:
     cache: *android_cache_paths
     triggering:
       events:
-        - tag
-      tag_patterns:
+        - push
+      branch_patterns:
         - pattern: "main"
       cancel_previous_builds: true
     scripts:
