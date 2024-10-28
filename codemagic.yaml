@@ -1,32 +1,105 @@
+definitions:
+  install_flutterfire_cli: &install_flutterfire_cli
+    name: Install Flutterfire CLI
+    script: |
+      dart pub global activate flutterfire_cli
+  android_enviroments: &android_enviroments
+    flutter: v3.22.2
+    java: 17
+  ios_enviroments: &ios_enviroments
+    flutter: v3.22.2
+    xcode: 15
+  android_cache_paths: &android_cache_paths
+    cache_paths:
+      - $HOME/.shorebird
+    groups:
+      - shorebird_credentials
+  ios_cache_paths: &ios_cache_paths
+    cache_paths:
+      - $HOME/Library/Caches/CocoaPods
+      - $HOME/.shorebird
+    groups:
+      - shorebird_credentials
+  shorebird_install_sripts: &shorebird_install_scripts
+    name: Install Shorebird CLI
+    script: |
+      if [ ! -d "$HOME/.shorebird" ]; then
+        bash scrit
+      fi
+      echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+  extract_app_version: &extract_app_version_scripts
+    name: Extract App Version
+    script: |
+      set -ex
+      VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+      echo "VERSION=$VERSION" >> $CM_ENV
+
 workflows:
-  android-workflows:
-    name: Android Workflows
-    environment:
-      flutter: v3.22.2
-      java: 11
-      groups:
-        - firebase-crashlytics
+  android-production-deployment-workflows:
+    name: Android Production Deployment Workflows
+    instance_type: mac_mini_m2
+    environment: *android_enviroments
+    cache: *android_cache_paths
     triggering:
       events:
-        - push
-      branch_patterns:
+        - tag
+      tag_patterns:
         - pattern: "main"
+      cancel_previous_builds: true
     scripts:
-      - name: "Build APK"
+      - name: Get Flutter Dependencies
         script: |
           set -ex
-          flutter build apk --release --split-debug-info=build/app/outputs/symbols
-      - name: "Echo CRASHLYTICS_SERVICE_ACCOUNT_KEY"
+          flutter pub get
+      - name: Set Up Keystore
         script: |
-          echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY
-      - name: "Prepare Google Application Credentials"
-        script: |
-          set -ex
-          echo $CRASHLYTICS_SERVICE_ACCOUNT_KEY > $CM_BUILD_DIR/firebase_credentials.json
-          export GOOGLE_APPLICATION_CREDENTIALS=$CM_BUILD_DIR/firebase_credentials.json
-      - name: "Upload Symbols to Firebase"
+          echo $CM_KEYSTORE | base64 --decode > $CM_KEYSTORE_PATH
+      - *shorebird_install_scripts
+      - name: Shorebird Build Release
         script: |
           set -ex
-          firebase crashlytics:symbols:upload --app=1:31751439669:android:76063b929e5bddc67af87c build/app/outputs/symbols
+          shorebird release android --obfuscate \
+          --flavor stag \
+          -t lib/main_prod.dart \
+          --split-debug-info=build/app/outputs/symbols \
+          --flutter-version 3.22.2
     artifacts:
-      - build/app/outputs/**/*.apk
+      - build/app/outputs/bundle/prodRelease/app-prod-release.aab
+  # ios-staging-deployment-workflows:
+  #   name: iOS Staging Deployment Workflows
+  #   instance_type: mac_mini_m2
+  #   cache: *ios_cache_paths
+  #   triggering:
+  #     events:
+  #       - tag
+  #     tag_patterns:
+  #       - pattern: "main"
+  #   environment: *ios_enviroments
+  #   integrations:
+  #     app_store_connect: Codemagic API Key
+  #   scripts:
+  #     - name: Set Up Code Signing Settings on Xcode Project
+  #       script: |
+  #         xcode-project use-profiles
+  #     - name: Get Flutter Dependencies
+  #       script: |
+  #         set -ex
+  #         flutter pub get
+  #     - *install_flutterfire_cli
+  #     - name: Install iOS Dependencies
+  #       script: |
+  #         set -ex
+  #         find . -name "Podfile" -execdir pod install \;
+  #     - *shorebird_install_scripts
+  #     - name: Shorebird Build Release
+  #       script: |
+  #         set -ex
+  #         shorebird release ios --obfuscate \
+  #         --flavor prod \
+  #         -t lib/main_prod.dart \
+  #         --split-debug-info=build/app/outputs/symbols \
+  #         --export-options-plist=/Users/builder/export_options.plist \
+  #         --no-codesign \
+  #         --flutter-version 3.22.2
+  #   artifacts:
+  #     - build/ios/ipa/*.ipa
