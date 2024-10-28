@@ -56,8 +56,7 @@ workflows:
         script: |
           set -ex
           shorebird release android -- --obfuscate \
-          --flavor stag \
-          -t lib/main_prod.dart \
+          -t lib/main.dart \
           --split-debug-info=build/app/outputs/symbols \
           --flutter-version 3.22.2
     artifacts:
@@ -92,8 +91,7 @@ workflows:
   #       script: |
   #         set -ex
   #         shorebird release ios -- --obfuscate \
-  #         --flavor prod \
-  #         -t lib/main_prod.dart \
+  #         -t lib/main.dart \
   #         --split-debug-info=build/app/outputs/symbols \
   #         --export-options-plist=/Users/builder/export_options.plist \
   #         --no-codesign \
