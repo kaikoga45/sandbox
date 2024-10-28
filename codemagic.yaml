@@ -55,7 +55,7 @@ workflows:
       - name: Shorebird Build Release
         script: |
           set -ex
-          shorebird release android --obfuscate \
+          shorebird release android -- --obfuscate \
           --flavor stag \
           -t lib/main_prod.dart \
           --split-debug-info=build/app/outputs/symbols \
@@ -91,7 +91,7 @@ workflows:
   #     - name: Shorebird Build Release
   #       script: |
   #         set -ex
-  #         shorebird release ios --obfuscate \
+  #         shorebird release ios -- --obfuscate \
   #         --flavor prod \
   #         -t lib/main_prod.dart \
   #         --split-debug-info=build/app/outputs/symbols \
