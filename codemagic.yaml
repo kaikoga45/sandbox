@@ -6,20 +6,20 @@ definitions:
   android_enviroments: &android_enviroments
     flutter: v3.22.2
     java: 17
+    groups:
+      - shorebird_credentials 
   ios_enviroments: &ios_enviroments
     flutter: v3.22.2
     xcode: 15
+    groups:
+      - shorebird_credentials 
   android_cache_paths: &android_cache_paths
     cache_paths:
       - $HOME/.shorebird
-    groups:
-      - shorebird_credentials
   ios_cache_paths: &ios_cache_paths
     cache_paths:
       - $HOME/Library/Caches/CocoaPods
       - $HOME/.shorebird
-    groups:
-      - shorebird_credentials
   shorebird_install_sripts: &shorebird_install_scripts
     name: Install Shorebird CLI
     script: |
