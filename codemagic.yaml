@@ -27,7 +27,7 @@ definitions:
         echo "Installing Shorebird CLI"
         bash scripts/install_shorebird.sh
       fi
-      echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
+      echo PATH="$HOME/.shorebird/bin:$PATH" >> $CM_ENV
   extract_app_version: &extract_app_version_scripts
     name: Extract App Version
     script: |
@@ -78,7 +78,7 @@ workflows:
     scripts:
       - name: Set Up Code Signing Settings on Xcode Project
         script: |
-          xcode-project use-profiles
+          xcode-project use-profiles --custom-export-options='{"manageAppVersionAndBuildNumber":false}'
       - name: Get Flutter Dependencies
         script: |
           set -ex
