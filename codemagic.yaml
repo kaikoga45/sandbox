@@ -55,10 +55,11 @@ workflows:
       - name: Shorebird Build Release
         script: |
           set -ex
-          shorebird release android -- --obfuscate \
+          shorebird release android \
           -t lib/main.dart \
           --split-debug-info=build/app/outputs/symbols \
-          --flutter-version 3.22.2
+          --flutter-version 3.22.2 \
+          -- --obfuscate
     artifacts:
       - build/app/outputs/bundle/prodRelease/app-prod-release.aab
   # ios-staging-deployment-workflows:
