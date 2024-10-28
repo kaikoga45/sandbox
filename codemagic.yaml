@@ -24,6 +24,7 @@ definitions:
     name: Install Shorebird CLI
     script: |
       if [ ! -d "$HOME/.shorebird" ]; then
+        echo "Installing Shorebird CLI"
         bash scripts/install_shorebird.sh
       fi
       echo PATH="/Users/builder/.shorebird/bin:$PATH" >> $CM_ENV
@@ -95,7 +96,6 @@ workflows:
           --split-debug-info=build/app/outputs/symbols \
           --export-options-plist=/Users/builder/export_options.plist \
           --no-codesign \
-          --flutter-version 3.22.2 \
-          -- --obfuscate
+          --flutter-version 3.22.2
     artifacts:
       - build/ios/ipa/*.ipa
