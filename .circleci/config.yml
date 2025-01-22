@@ -73,6 +73,6 @@ workflows:
       - git-tag-management:
           filters:
             branches:
-              only: master
+              only: main
             tags:
               ignore: /.*/
