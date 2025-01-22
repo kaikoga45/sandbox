@@ -71,4 +71,4 @@ workflows:
   shell_script: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - say-hello
+      - git-tag-management
