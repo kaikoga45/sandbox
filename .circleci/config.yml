@@ -68,10 +68,11 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  shell_script: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  shell_script:
     jobs:
-      - build:
+      - git-tag-management:
           filters:
+            branches:
+              only: master
             tags:
               ignore: /.*/
