@@ -18,6 +18,7 @@ jobs:
     steps:
       - checkout
       - run: git fetch
+      - run: git pull
       - run:
           name: "Create/Update Repo Tag"
           command: |
